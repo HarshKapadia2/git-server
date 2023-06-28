@@ -1,0 +1,80 @@
+#! /bin/bash
+
+set -Eeuo pipefail;
+
+password="";
+
+# Usage instructions
+print_usage() {
+	echo "";
+	echo "Usage:";
+	echo "";
+	echo "./setup --pwd <value> [--help]";
+	echo "";
+	echo "pwd";
+	echo "	Password for the Git server account. Used for SSH as well.";
+	echo "	Value: Any string other than an empty string";
+	echo "	Requirement: Always";
+	echo "";
+	echo "help";
+	echo "	Print this command usage instruction.";
+	echo "	Value: No value should be entered.";
+	echo "	Requirement: Optional";
+	echo "";
+}
+
+# Handle arguments
+if [[ "$#" -gt 0 ]]; then
+	case "$1" in
+		"--pwd")
+			password=$2;
+			shift;
+			shift;
+			;;
+		"--help")
+			print_usage;
+			exit 0;
+			;;
+		*)
+			echo "Error: Invalid argument $2.";
+			exit 1;
+			;;
+	esac;
+else
+	echo "Error: Missing argument(s).";
+	print_usage;
+	exit 1;
+fi;
+
+if [[ "${password}" == "" ]]; then
+	echo "Error: Please enter a password.";
+	print_usage;
+	exit 1;
+fi;
+
+# Install dependencies
+sudo apt-get update;
+sudo apt-get install -y git openssh-server;
+
+# Create new user 'git' (for security)
+sudo useradd --create-home -d /home/git --user-group --shell /bin/bash git;
+
+# Set password for user 'git'
+echo git:"${password}" | sudo chpasswd;
+
+# Create directory for repositories
+sudo mkdir /srv/git;
+sudo chown -R git:git /srv/git;
+
+# Post-install instructions
+echo "";
+echo "Setup successful!";
+echo "A Git server has been set up with a new user and group called 'git'.";
+echo "Repositories have to be stored at /srv/git.";
+echo "Password for user 'git': ${password}";
+echo "SSH access: ssh git@$(hostname)";
+echo "Server IP: $(hostname -I)";
+echo "";
+echo "For further instructions, please refer to https://github.com/HarshKapadia2/git-server/blob/main/README.md .";
+echo "";
+
