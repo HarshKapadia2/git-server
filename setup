@@ -54,7 +54,7 @@ fi;
 
 # Install dependencies
 sudo apt-get update;
-sudo apt-get install -y git openssh-server;
+sudo apt-get install -y git openssh-server net-tools;
 
 # Create new user 'git' (for security)
 sudo useradd --create-home -d /home/git --user-group --shell /bin/bash git;
