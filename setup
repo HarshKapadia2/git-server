@@ -3,20 +3,26 @@
 set -Eeuo pipefail;
 
 password="";
+default_branch="master";
 
 # Usage instructions
 print_usage() {
 	echo "";
 	echo "Usage:";
 	echo "";
-	echo "./setup --pwd <value> [--help]";
+	echo "./setup --pwd <value> [--help] [--default-branch <branch_name>]";
 	echo "";
-	echo "pwd";
+	echo "--pwd <value>";
 	echo "	Password for the Git server account. Used for SSH as well.";
 	echo "	Value: Any string other than an empty string";
 	echo "	Requirement: Always";
 	echo "";
-	echo "help";
+	echo "--default-branch <branch_name>";
+	echo "	Optionally specify the default branch that Git should use for the initial branch.";
+	echo "	Value: Any string. Default value is 'master'.";
+	echo "	Requirement: Optional";
+	echo "";
+	echo "--help";
 	echo "	Print this command usage instruction.";
 	echo "	Value: No value should be entered.";
 	echo "	Requirement: Optional";
@@ -28,6 +34,11 @@ if [[ "$#" -gt 0 ]]; then
 	case "$1" in
 		"--pwd")
 			password=$2;
+			shift;
+			shift;
+			;;
+		"--default-branch")
+			default_branch=$2;
 			shift;
 			shift;
 			;;
@@ -52,6 +63,18 @@ if [[ "${password}" == "" ]]; then
 	exit 1;
 fi;
 
+if [[ "${default_branch}" == "" ]]; then
+	echo "Error: Please enter a default branch name";
+	print_usage;
+	exit 1;
+fi;
+
+if [[ "${default_branch}" == "master" ]]; then
+	echo "";
+	echo "NOTE: Using 'master' as the default branch name.";
+	echo "";
+fi;
+
 # Install dependencies
 sudo apt-get update;
 sudo apt-get install -y git openssh-server net-tools;
@@ -65,6 +88,10 @@ echo git:"${password}" | sudo chpasswd;
 # Create directory for repositories
 sudo mkdir /srv/git;
 sudo chown -R git:git /srv/git;
+
+# Configure the default branch for Git to use when a repository is created by the user 'git'
+printf "[init]\n\tdefaultBranch = ${default_branch}\n" > /home/git/.gitconfig;
+chown git:git /home/git/.gitconfig;
 
 # Post-install instructions
 echo "";
