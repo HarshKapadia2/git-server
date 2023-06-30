@@ -14,25 +14,32 @@ A simple self-hosted Git server (SSH access only).
 
     ```bash
     $ cd git-server/
-    $ ./setup --pwd <value>
+    $ ./setup --pwd <value> --default-branch <branch_name>
     # Or
     $ ./setup --help
     ```
 
--   NOTE:
-    -   The Git server lives in a new user (and group) called `git`.
-    -   Repositories have to be created in `/srv/git` by the `git` user.
-    -   Currently, only SSH access is supported.
+> NOTE:
+>
+> -   The Git server lives in a new user (and group) called `git`.
+> -   Repositories have to be created in `/srv/git` **by the `git` user**.
+> -   Currently, only SSH access is supported.
 
 ## Script Arguments
 
-The [`setup` script](setup) accepts two arguments
+The [`setup` script](setup) arguments
 
--   `pwd`
-    -   Password
+-   `--pwd <value>`
+    -   Password for the Git server account. Used for SSH as well.
+    -   Value: A string. An empty string is not allowed.
     -   Requirement: Always
--   `help`
-    -   Prints detailed argument details.
+-   `--default-branch <branch_name>`
+    -   Optionally specify the default branch that Git should use for the initial branch.
+    -   Value: A string. Default value is `master`.
+    -   Requirement: Optional
+-   `--help`
+    -   Print this command usage instruction.
+    -   Value: No value should be entered.
     -   Requirement: Optional
 
 ## Adding New Repositories
@@ -41,25 +48,18 @@ The [`setup` script](setup) accepts two arguments
 
     ```bash
     $ ssh git@server_hostname
-    $ su - git # Run to switch user to 'git', only if required
     ```
 
--   Navigate to the `/srv/git` directory.
+-   Create a new directory in `/src/git` with the name of the repository appended with a `.git`.
 
     ```bash
-    $ cd /srv/git
-    ```
-
--   Create a new directory there with the name of the repository appended with a `.git`.
-
-    ```bash
-    $ mkdir repo_name.git
+    $ mkdir /srv/git/repo_name.git
     ```
 
 -   Inside the newly created directory, create a bare Git repository.
 
     ```bash
-    $ cd repo_name.git
+    $ cd /srv/git/repo_name.git
     $ git init --bare
     ```
 
