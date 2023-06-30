@@ -14,12 +14,12 @@ print_usage() {
 	echo "";
 	echo "--pwd <value>";
 	echo "	Password for the Git server account. Used for SSH as well.";
-	echo "	Value: Any string other than an empty string";
+	echo "	Value: A string. An empty string is not allowed.";
 	echo "	Requirement: Always";
 	echo "";
 	echo "--default-branch <branch_name>";
 	echo "	Optionally specify the default branch that Git should use for the initial branch.";
-	echo "	Value: Any string. Default value is 'master'.";
+	echo "	Value: A string. Default value is 'master'.";
 	echo "	Requirement: Optional";
 	echo "";
 	echo "--help";
