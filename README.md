@@ -2,11 +2,6 @@
 
 A simple self-hosted Git server (SSH access only).
 
-> NOTE:
->
-> -   SSH access only.
-> -   The use of Docker is optional.
-
 ## Setup Instructions
 
 -   Clone this repository
@@ -15,35 +10,13 @@ A simple self-hosted Git server (SSH access only).
     $ git clone https://github.com/HarshKapadia2/git-server.git
     ```
 
--   For non-Docker installs, run the [`setup` script](setup).
+-   Run the [`setup` script](setup).
 
     ```bash
     $ cd git-server/
     $ ./setup --pwd <value>
     # Or
     $ ./setup --help
-    ```
-
--   For Docker installs
-
-    -   Ensure [Docker](https://harshkapadia2.github.io/docker) is installed and running.
-    -   Run the [`Dockerfile`](Dockerfile).
-
-    ```bash
-    $ cd git-server/
-    $ docker build . -t ubuntu-git-server
-    ```
-
-    -   Run a container in the background.
-
-    ```bash
-    $ docker container run --name git-server ubuntu-git-server
-    ```
-
-    -   To access the container
-
-    ```bash
-    $ docker container exec -it ubuntu-git-server bash
     ```
 
 -   NOTE:
@@ -94,4 +67,3 @@ The [`setup` script](setup) accepts two arguments
 
 -   [How to Create Your Own Git Server](https://www.inmotionhosting.com/support/website/git/git-server)
 -   [Git internals](https://git.harshkapadia.me)
-
