@@ -67,3 +67,7 @@ The [`setup` script](setup) arguments
 
 -   [How to Create Your Own Git Server](https://www.inmotionhosting.com/support/website/git/git-server)
 -   [Git internals](https://git.harshkapadia.me)
+-   Bare Git repositories
+    -   [What is a bare repository and why would I need one?](https://stackoverflow.com/questions/37992400/what-is-a-bare-repository-and-why-would-i-need-one)
+    -   [all about "bare" repos -- what, why, and how to fix a non-bare push](https://htmlpreview.github.io/?https://github.com/sitaramc/sitaramc.github.com/blob/dce410b2a2804723676db9cabd7bb506b6d9ba05/concepts/bare.html)
+    -   [What's the -practical- difference between a Bare and non-Bare repository?](https://stackoverflow.com/questions/5540883/whats-the-practical-difference-between-a-bare-and-non-bare-repository)
